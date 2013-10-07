@@ -1,21 +1,11 @@
 class Bit_structure():
     def __init__(self):
-        self.transmit_field_offset = 0
+        self.offset = 0
+        self.bit_field_list = []
 
     def register(self, bit_field_type):
-
-        specified_bdf_offset, bdf_type = arg_bit_data_field
-
-        _offset = self.bit_field_offset
-
-        if predicted_bdf_offset != calculated_bdf_offset:
-            raise ValueError(
-                "Bit Data Field offset error:\n"+\
-                "Predicted %n, Calculated %n"%predicted_offset,calculated_offset)
-
-        self.bit_field_offset  +=  bfd_type.length
-        self.bit_fields.append( Bit_Data_Field(self.bit_field_type,length) )
-
+        self.offset += bit_field_type.offset
+        self.bit_fild_list.append(bit_field_type)
 
 class Bit_field_type():
     def __init__(self): raise NotImplemented
@@ -35,12 +25,12 @@ class Bit_field_type():
 class Bit_field_bit(Bit_field_type):
     def __init__(self, identifier):
         self.identifier = identifier
-            
+
 class Bit_field_netascii(Bit_field_type):
     pass
 
 class Opcode(Bit_field_type):
-    def __init(self, number):
+    def __init__(self, number):
         self.offset = 16
         self.strings = [
         "1     Read request (RRQ)"
@@ -76,9 +66,10 @@ class ErrorCode(Bit_field_type):
         return self.strings[self.number]
 
 class ErrMsg(Bit_field_type):
-    def __init__(self, message_string):
+    def __init__(self, message_string=""):
         self.message_string = message_string
-        self.offset = 8 * len(message_string)
+        # space for the message string + an extra byte for the null terminator
+        self.offset = 8 * len(message_string) + 8
 
     def __str__(self):
         return self.message_string
